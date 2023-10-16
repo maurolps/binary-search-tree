@@ -12,21 +12,39 @@ function buildTree(arr, start, end) {
   return root;
 }
 
-function Tree (arr = [ 1, 2, 3, 4, 5, 6, 7, 8]) {
+function Tree (arr = [ 1, 2, 4, 5, 6, 7, 8]) {
   const root = buildTree(arr, 0, 7);
   
-  const insert = (value, treeRoot = root) => {
-    // const newNode = Node(value);
+  const insert = (data, treeRoot = root) => {
     if (treeRoot == null) {
-      treeRoot = Node(value);
+      treeRoot = Node(data);
       return treeRoot;
     }
-    if (value < treeRoot.data) {
-      treeRoot.left = insert(value, treeRoot.left);
-    } else if (value > treeRoot.data) {
-      treeRoot.right = insert(value, treeRoot.right);
+    if (data < treeRoot.data) {
+      treeRoot.left = insert(data, treeRoot.left);
+    } else if (data > treeRoot.data) {
+      treeRoot.right = insert(data, treeRoot.right);
     }
     return treeRoot;
+  }
+
+  const findNode = (data, treeRoot = root) => {
+    if (treeRoot.data === data)  return treeRoot;
+    if (treeRoot == null) {
+      return null;
+    }
+    if (data < treeRoot.data) {
+      console.log(treeRoot.data);
+      treeRoot = findNode(data, treeRoot.left);
+    } else if (data > treeRoot.data) {
+      console.log(treeRoot.data);
+      treeRoot = findNode(data, treeRoot.right);
+    }
+    return treeRoot;
+  }
+
+  const deleteNode = (data) => {
+
   }
 
   // Print a structured format of the Tree to console.
@@ -43,10 +61,11 @@ const prettyPrint = (node = root, prefix = "", isLeft = true) => {
   }
 };
 
-  return {insert, prettyPrint}
+  return {insert, prettyPrint, findNode}
 }
 
 const bsTree = Tree();
 bsTree.prettyPrint();
 // bsTree.insert(3);
 // bsTree.prettyPrint();
+console.log(bsTree.findNode(7));
