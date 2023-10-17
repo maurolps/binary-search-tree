@@ -45,7 +45,7 @@ function Tree (arr = [ 1, 2, 4, 5, 6, 7, 8]) {
     if (treeRoot == null) return null;
     let prevNode = null;
 
-    // find Node to be deleted and his predecessor
+    // find Node to be deleted and his predecessor by recursive method
     if (treeRoot.data === data)  return treeRoot;
     if (data < treeRoot.data) {
       if(treeRoot.left.data === data) prevNode = treeRoot;
@@ -55,6 +55,7 @@ function Tree (arr = [ 1, 2, 4, 5, 6, 7, 8]) {
       treeRoot = deleteNode(data, treeRoot.right);
     }
 
+    // recursive base case
     if (treeRoot == null) return null;
 
     // if has no child delete his predecessor link
@@ -62,9 +63,24 @@ function Tree (arr = [ 1, 2, 4, 5, 6, 7, 8]) {
       if (treeRoot === prevNode.right) prevNode.right = null
       else prevNode.left = null;
       return null;
+    } 
+
+    // if has only one child
+    else if (treeRoot.right == null || treeRoot.left == null) {
+      if (treeRoot === prevNode.right) {
+        console.log('This node contains one child in the right...');
+      } else {
+        console.log('This node contains one child in the left...');
+      }
+      return null;
+    } 
+    
+    // The node to be deleted has both childs
+    else {
+      console.log ('this node contains both childs...')
+      return null;
     }
 
-    console.log('This node contains children...');
 
 
 
@@ -94,3 +110,4 @@ bsTree.prettyPrint();
 // bsTree.prettyPrint();
 bsTree.deleteNode(4);
 bsTree.prettyPrint();
+bsTree.deleteNode(2);
