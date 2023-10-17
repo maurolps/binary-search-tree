@@ -13,7 +13,7 @@ function buildTree(arr, start, end) {
 }
 
 function Tree (arr = [ 1, 2, 4, 5, 6, 7, 8]) {
-  const root = buildTree(arr, 0, 7);
+  const root = buildTree(arr, 0, 6);
   
   const insert = (data, treeRoot = root) => {
     if (treeRoot == null) {
@@ -29,21 +29,45 @@ function Tree (arr = [ 1, 2, 4, 5, 6, 7, 8]) {
   }
 
   const findNode = (data, treeRoot = root) => {
-    if (treeRoot.data === data)  return treeRoot;
     if (treeRoot == null) {
       return null;
     }
+    if (treeRoot.data === data)  return treeRoot;
     if (data < treeRoot.data) {
-      console.log(treeRoot.data);
       treeRoot = findNode(data, treeRoot.left);
     } else if (data > treeRoot.data) {
-      console.log(treeRoot.data);
       treeRoot = findNode(data, treeRoot.right);
     }
     return treeRoot;
   }
 
-  const deleteNode = (data) => {
+  const deleteNode = (data, treeRoot = root) => {
+    if (treeRoot == null) return null;
+    let prevNode = null;
+
+    // find Node to be deleted and his predecessor
+    if (treeRoot.data === data)  return treeRoot;
+    if (data < treeRoot.data) {
+      if(treeRoot.left.data === data) prevNode = treeRoot;
+      treeRoot = deleteNode(data, treeRoot.left);
+    } else if (data > treeRoot.data) {
+      if(treeRoot.right.data === data) prevNode = treeRoot;
+      treeRoot = deleteNode(data, treeRoot.right);
+    }
+
+    if (treeRoot == null) return null;
+
+    // if has no child delete his predecessor link
+    if (treeRoot.right == null && treeRoot.left == null) {
+      if (treeRoot === prevNode.right) prevNode.right = null
+      else prevNode.left = null;
+      return null;
+    }
+
+    console.log('This node contains children...');
+
+
+
 
   }
 
@@ -61,11 +85,12 @@ const prettyPrint = (node = root, prefix = "", isLeft = true) => {
   }
 };
 
-  return {insert, prettyPrint, findNode}
+  return {insert, prettyPrint, findNode, deleteNode}
 }
 
 const bsTree = Tree();
 bsTree.prettyPrint();
 // bsTree.insert(3);
 // bsTree.prettyPrint();
-console.log(bsTree.findNode(7));
+bsTree.deleteNode(4);
+bsTree.prettyPrint();
