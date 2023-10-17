@@ -16,6 +16,9 @@ function Tree (arr) {
   const root = buildTree(arr, 0, arr.length -1);
   
   const insert = (data, treeRoot = root) => {
+    if (root.data == null) {
+      root.data = data;
+    }
     if (treeRoot == null) {
       treeRoot = Node(data);
       return treeRoot;
@@ -45,8 +48,10 @@ function Tree (arr) {
     if (treeRoot == null) return null;
     let prevNode = null;
 
+    if (treeRoot.data === data && root.data !== data)  return treeRoot;
+    // if (treeRoot.data === data)  return treeRoot;
+
     // find Node to be deleted and his predecessor by recursive method
-    if (treeRoot.data === data)  return treeRoot;
     if (data < treeRoot.data) {
       if(treeRoot.left.data === data) prevNode = treeRoot;
       treeRoot = deleteNode(data, treeRoot.left);
@@ -60,17 +65,34 @@ function Tree (arr) {
 
     // if has no child delete his predecessor link
     if (treeRoot.right == null && treeRoot.left == null) {
-      if (treeRoot === prevNode.right) prevNode.right = null
-      else prevNode.left = null;
+      if(prevNode == null) {
+        root.data = null;
+        return null;
+      }
+      if (treeRoot === prevNode.right) {
+        prevNode.right = null
+      } else {
+        prevNode.left = null;
+      }
       return null;
     } 
 
     // if has only one child
     else if (treeRoot.right == null || treeRoot.left == null) {
       if (treeRoot.right == null) {
+        if(prevNode == null) {
+          root.data = treeRoot.left.data;
+          root.left = null;
+          return null;
+        }
         if(treeRoot === prevNode.right) prevNode.right = treeRoot.left
         else prevNode.left = treeRoot.left;        
       } else {
+        if(prevNode == null) {
+          root.data = treeRoot.right.data;
+          root.right = null;
+          return null;
+        }
         if(treeRoot === prevNode.right) prevNode.right = treeRoot.right
         else prevNode.left = treeRoot.right;
       }
@@ -114,12 +136,15 @@ const prettyPrint = (node = root, prefix = "", isLeft = true) => {
   return {insert, prettyPrint, findNode, deleteNode}
 }
 
-//create an array with valuews from 1 to 30;
-const arr = Array.from({ length: 30 }, (_, index) => index + 1);
+const arr = Array.from({ length: 2 }, (_, index) => index + 1);
 
 const bsTree = Tree(arr);
 bsTree.prettyPrint();
-bsTree.deleteNode(23);
-bsTree.deleteNode(27);
-bsTree.deleteNode(28);
+bsTree.deleteNode(1);
+bsTree.deleteNode(2);
+bsTree.insert(3);
+bsTree.insert(4);
+bsTree.insert(5);
+bsTree.insert(6);
+bsTree.insert(7);
 bsTree.prettyPrint();
