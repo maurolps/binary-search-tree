@@ -12,8 +12,8 @@ function buildTree(arr, start, end) {
   return root;
 }
 
-function Tree (arr = [ 1, 2, 4, 5, 6, 7, 8]) {
-  const root = buildTree(arr, 0, 6);
+function Tree (arr) {
+  const root = buildTree(arr, 0, arr.length -1);
   
   const insert = (data, treeRoot = root) => {
     if (treeRoot == null) {
@@ -69,27 +69,32 @@ function Tree (arr = [ 1, 2, 4, 5, 6, 7, 8]) {
     else if (treeRoot.right == null || treeRoot.left == null) {
       if (treeRoot.right == null) {
         if(treeRoot === prevNode.right) prevNode.right = treeRoot.left
-        else prevNode.left = treeRoot.left;
-        console.log('This node contains one child in the left...');
-        
+        else prevNode.left = treeRoot.left;        
       } else {
         if(treeRoot === prevNode.right) prevNode.right = treeRoot.right
         else prevNode.left = treeRoot.right;
-        console.log('This node contains one child in the right...');
       }
       return null;
     } 
     
     // The node to be deleted has both childs
     else {
-      console.log ('this node contains both childs...')
+      let tmpNode = treeRoot.right;
+      if(tmpNode.left == null) {
+        treeRoot.data = tmpNode.data;
+        treeRoot.right = tmpNode.right;
+        return null;
+      }
+      while (tmpNode.left !== null) {
+        prevNode = tmpNode;
+        tmpNode = tmpNode.left;        
+      }
+      
+      treeRoot.data = tmpNode.data;
+      prevNode.left = null;
+
       return null;
     }
-
-
-
-
-
   }
 
   // Print a structured format of the Tree to console.
@@ -109,11 +114,12 @@ const prettyPrint = (node = root, prefix = "", isLeft = true) => {
   return {insert, prettyPrint, findNode, deleteNode}
 }
 
-const bsTree = Tree();
+//create an array with valuews from 1 to 30;
+const arr = Array.from({ length: 30 }, (_, index) => index + 1);
+
+const bsTree = Tree(arr);
 bsTree.prettyPrint();
-// bsTree.insert(3);
-// bsTree.prettyPrint();
-bsTree.deleteNode(8);
-bsTree.prettyPrint();
-bsTree.deleteNode(7);
+bsTree.deleteNode(23);
+bsTree.deleteNode(27);
+bsTree.deleteNode(28);
 bsTree.prettyPrint();
