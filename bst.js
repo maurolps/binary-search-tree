@@ -67,10 +67,15 @@ function Tree (arr = [ 1, 2, 4, 5, 6, 7, 8]) {
 
     // if has only one child
     else if (treeRoot.right == null || treeRoot.left == null) {
-      if (treeRoot === prevNode.right) {
-        console.log('This node contains one child in the right...');
-      } else {
+      if (treeRoot.right == null) {
+        if(treeRoot === prevNode.right) prevNode.right = treeRoot.left
+        else prevNode.left = treeRoot.left;
         console.log('This node contains one child in the left...');
+        
+      } else {
+        if(treeRoot === prevNode.right) prevNode.right = treeRoot.right
+        else prevNode.left = treeRoot.right;
+        console.log('This node contains one child in the right...');
       }
       return null;
     } 
@@ -108,6 +113,7 @@ const bsTree = Tree();
 bsTree.prettyPrint();
 // bsTree.insert(3);
 // bsTree.prettyPrint();
-bsTree.deleteNode(4);
+bsTree.deleteNode(8);
 bsTree.prettyPrint();
-bsTree.deleteNode(2);
+bsTree.deleteNode(7);
+bsTree.prettyPrint();
