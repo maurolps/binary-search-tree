@@ -164,16 +164,32 @@ function Tree (arr) {
     } else {
     const leftHeight = height(treeRoot.left);
     const rightHeight = height(treeRoot.right);
-    if (leftHeight >= rightHeight) {
-      return leftHeight + 1;}
-    else {
-      return rightHeight +1;}
+    if (leftHeight >= rightHeight) 
+      return leftHeight + 1;
+    else 
+      return rightHeight +1;
+    }
+
+  }
+
+  const depth = (node, treeRoot = root) => {
+    if (treeRoot == null) return -1;
+    if (node === root) return 0;
+
+    if(treeRoot.data === node.data) return 0;
+
+    if(node.data < treeRoot.data) {
+      const treeDepth = depth(node, treeRoot.left);
+      return treeDepth +1;
+    } else if (node.data > treeRoot.data) {
+      const treeDepth = depth(node, treeRoot.right);
+      return treeDepth +1;
     }
 
   }
 
   // Print a structured format of the Tree to console.
-  const prettyPrint = (node = root, prefix = "", isLeft = true) => {
+  const prettyPrint = (node = root, prefix = " ", isLeft = true) => {
     if (node === null) {
       return;
     }
@@ -186,7 +202,7 @@ function Tree (arr) {
     }
   };
 
-  return {insert, prettyPrint, findNode, deleteNode, levelOrder, inOrder, preOrder, postOrder, height}
+  return {insert, prettyPrint, findNode, deleteNode, levelOrder, inOrder, preOrder, postOrder, height, depth}
 }
 
 const arr = Array.from({ length: 30 }, (_, index) => index + 1);
@@ -194,6 +210,8 @@ const arr = Array.from({ length: 30 }, (_, index) => index + 1);
 const bsTree = Tree(arr);
 
 bsTree.prettyPrint();
-console.log(bsTree.height());
+const node = bsTree.findNode(22);
+const nodeDepth = bsTree.depth(node);
+console.log(nodeDepth);
 
 
