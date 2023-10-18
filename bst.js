@@ -143,7 +143,7 @@ function Tree (arr) {
       if (type === 'postorder') arrOrder.push(treeRoot.data);
     }
     traverse();
-    console.log(arrOrder);
+    return(arrOrder);
   }
 
   const inOrder = () => {
@@ -188,6 +188,14 @@ function Tree (arr) {
 
   }
 
+  const rebalance = () => {
+    const inOrderTree = order('inorder');
+    const newRoot = buildTree(inOrderTree, 0, inOrderTree.length -1);
+    root.data = newRoot.data;
+    root.left = newRoot.left;
+    root.right = newRoot.right;
+  }
+
   // Print a structured format of the Tree to console.
   const prettyPrint = (node = root, prefix = " ", isLeft = true) => {
     if (node === null) {
@@ -202,16 +210,19 @@ function Tree (arr) {
     }
   };
 
-  return {insert, prettyPrint, findNode, deleteNode, levelOrder, inOrder, preOrder, postOrder, height, depth}
+  return {insert, prettyPrint, findNode, deleteNode, levelOrder, 
+  inOrder, preOrder, postOrder, height, depth, rebalance}
 }
 
 const arr = Array.from({ length: 30 }, (_, index) => index + 1);
 
 const bsTree = Tree(arr);
 
+bsTree.insert(31);
+bsTree.insert(32);
+bsTree.insert(33);
 bsTree.prettyPrint();
-const node = bsTree.findNode(22);
-const nodeDepth = bsTree.depth(node);
-console.log(nodeDepth);
+bsTree.rebalance();
+bsTree.prettyPrint();
 
 
