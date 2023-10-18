@@ -132,40 +132,30 @@ function Tree (arr) {
       console.log(queueArr);
   }
 
-  const inOrder = (treeRoot = root) => {
-    const arrInOrder = [];
-    const traverse = (treeRoot) => {
+  const order = (type) => {
+    const arrOrder = []
+    const traverse = (treeRoot = root) => {
       if (treeRoot == null) return;
+      if (type === 'preorder') arrOrder.push(treeRoot.data);
       traverse(treeRoot.left);
-      arrInOrder.push(treeRoot.data);
+      if (type === 'inorder') arrOrder.push(treeRoot.data);
       traverse(treeRoot.right);
+      if (type === 'postorder') arrOrder.push(treeRoot.data);
     }
-    traverse(treeRoot);
-    console.log (arrInOrder);
+    traverse();
+    console.log(arrOrder);
   }
 
-  const preOrder = (treeRoot = root) => {
-    const arrPreOrder = [];
-    const traverse = (treeRoot) => {
-      if (treeRoot == null) return;
-      arrPreOrder.push(treeRoot.data);
-      traverse(treeRoot.left);
-      traverse(treeRoot.right);
-    }
-    traverse(treeRoot);
-    console.log(arrPreOrder);
+  const inOrder = () => {
+    order('inorder');
   }
 
-  const postOrder = (treeRoot = root) => {
-    const arrPostOrder = [];
-    const traverse = (treeRoot) => {
-      if (treeRoot == null) return;
-      traverse(treeRoot.left);
-      traverse(treeRoot.right);
-      arrPostOrder.push(treeRoot.data);
-    }
-    traverse(treeRoot);
-    console.log(arrPostOrder);
+  const preOrder = () => {
+    order('preorder');
+  }
+
+  const postOrder = () => {
+    order('postorder');
   }
 
   // Print a structured format of the Tree to console.
@@ -190,5 +180,8 @@ const arr = Array.from({ length: 30 }, (_, index) => index + 1);
 const bsTree = Tree(arr);
 
 bsTree.prettyPrint();
+bsTree.inOrder();
+bsTree.preOrder();
 bsTree.postOrder();
+
 
