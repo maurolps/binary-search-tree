@@ -156,6 +156,18 @@ function Tree (arr) {
     console.log(arrPreOrder);
   }
 
+  const postOrder = (treeRoot = root) => {
+    const arrPostOrder = [];
+    const traverse = (treeRoot) => {
+      if (treeRoot == null) return;
+      traverse(treeRoot.left);
+      traverse(treeRoot.right);
+      arrPostOrder.push(treeRoot.data);
+    }
+    traverse(treeRoot);
+    console.log(arrPostOrder);
+  }
+
   // Print a structured format of the Tree to console.
   const prettyPrint = (node = root, prefix = "", isLeft = true) => {
     if (node === null) {
@@ -170,7 +182,7 @@ function Tree (arr) {
     }
   };
 
-  return {insert, prettyPrint, findNode, deleteNode, levelOrder, inOrder, preOrder}
+  return {insert, prettyPrint, findNode, deleteNode, levelOrder, inOrder, preOrder, postOrder}
 }
 
 const arr = Array.from({ length: 30 }, (_, index) => index + 1);
@@ -178,5 +190,5 @@ const arr = Array.from({ length: 30 }, (_, index) => index + 1);
 const bsTree = Tree(arr);
 
 bsTree.prettyPrint();
-bsTree.preOrder();
+bsTree.postOrder();
 
