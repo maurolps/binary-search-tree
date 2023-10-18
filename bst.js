@@ -147,15 +147,15 @@ function Tree (arr) {
   }
 
   const inOrder = () => {
-    order('inorder');
+    console.log(order('inorder'));
   }
 
   const preOrder = () => {
-    order('preorder');
+    console.log(order('preorder'));
   }
 
   const postOrder = () => {
-    order('postorder');
+    console.log(order('postorder'));
   }
 
   const height = (treeRoot = root) => {
@@ -196,6 +196,29 @@ function Tree (arr) {
     root.right = newRoot.right;
   }
 
+  const isBalanced = () => {
+    let balanced = true;
+
+    const traverse = (treeRoot = root) => {
+      if(treeRoot == null) {
+        return -1;
+      } else {
+        const leftHeight = traverse(treeRoot.left);
+        const rightHeight = traverse(treeRoot.right);
+        if (Math.abs(leftHeight - rightHeight) > 1) balanced = false;
+
+        if (leftHeight >= rightHeight) {
+          return leftHeight + 1;
+        } else {
+          return rightHeight +1;
+        }
+      }
+    }
+    
+    traverse();
+    return balanced;
+  }
+
   // Print a structured format of the Tree to console.
   const prettyPrint = (node = root, prefix = " ", isLeft = true) => {
     if (node === null) {
@@ -211,7 +234,7 @@ function Tree (arr) {
   };
 
   return {insert, prettyPrint, findNode, deleteNode, levelOrder, 
-  inOrder, preOrder, postOrder, height, depth, rebalance}
+  inOrder, preOrder, postOrder, height, depth, rebalance, isBalanced}
 }
 
 const arr = Array.from({ length: 30 }, (_, index) => index + 1);
@@ -222,7 +245,9 @@ bsTree.insert(31);
 bsTree.insert(32);
 bsTree.insert(33);
 bsTree.prettyPrint();
+console.log(bsTree.isBalanced()); // false
 bsTree.rebalance();
 bsTree.prettyPrint();
+console.log(bsTree.isBalanced()); // true
 
 
