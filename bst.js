@@ -118,44 +118,69 @@ function Tree (arr) {
     }
   }
 
-  const levelOrder = (treeRoot = root, queue = [root]) => {
+  // Traverse the tree in breadth-first level
+  // Provide each node as argument to the callback
+  // Returns an array of data if no callback given
+  const levelOrder = ( callback, treeRoot = root, queue = [root]) => {
     const queueArr = [];
     const traverse = (treeRoot, queue) => {    
       if (queue.length < 1) return;
       if (treeRoot == null) return;
-      queueArr.push(queue.shift().data);
+
+      const dataNode = queue.shift();
+      if (!callback) {
+        queueArr.push(dataNode.data)
+      } else {
+        callback(dataNode);
+      }
       if (treeRoot.left !== null) queue.push(treeRoot.left);
       if (treeRoot.right !== null) queue.push(treeRoot.right);
       traverse(queue[0], queue);
     }
-      traverse(treeRoot, queue);
-      console.log(queueArr);
+    traverse(treeRoot, queue);
+    if (!callback) return queueArr;
+      
   }
 
-  const order = (type) => {
+  const order = (type, callback) => {
     const arrOrder = []
     const traverse = (treeRoot = root) => {
       if (treeRoot == null) return;
-      if (type === 'preorder') arrOrder.push(treeRoot.data);
+      if (type === 'preorder') {
+        if (!callback) arrOrder.push(treeRoot.data);
+        else callback(treeRoot);
+      }
       traverse(treeRoot.left);
-      if (type === 'inorder') arrOrder.push(treeRoot.data);
+      if (type === 'inorder') {
+        if (!callback) arrOrder.push(treeRoot.data);
+        else callback(treeRoot);
+      }
       traverse(treeRoot.right);
-      if (type === 'postorder') arrOrder.push(treeRoot.data);
+      if (type === 'postorder') {
+        if (!callback) arrOrder.push(treeRoot.data);
+        else callback(treeRoot);
+      }
     }
     traverse();
-    return(arrOrder);
+    if (!callback) return(arrOrder);
   }
 
-  const inOrder = () => {
-    console.log(order('inorder'));
+  // inOrder, preOrder, postOrder
+  // Provide each node as argument to the callback
+  // Returns an array of data if no callback given
+  const inOrder = (callback) => {
+    if (!callback) return order('inorder')
+    else order('inorder', callback)
   }
 
-  const preOrder = () => {
-    console.log(order('preorder'));
+  const preOrder = (callback) => {
+    if (!callback) return order('preorder')
+    else order('preorder', callback)
   }
 
-  const postOrder = () => {
-    console.log(order('postorder'));
+  const postOrder = (callback) => {
+    if (!callback) return order('postorder')
+    else order('postorder', callback)
   }
 
   const height = (treeRoot = root) => {
@@ -241,13 +266,7 @@ const arr = Array.from({ length: 30 }, (_, index) => index + 1);
 
 const bsTree = Tree(arr);
 
-bsTree.insert(31);
-bsTree.insert(32);
-bsTree.insert(33);
 bsTree.prettyPrint();
-console.log(bsTree.isBalanced()); // false
-bsTree.rebalance();
-bsTree.prettyPrint();
-console.log(bsTree.isBalanced()); // true
+bsTree.inOrder();
 
 
